@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udemy - Nền tảng học trực tuyến</title>
+
+    <style>
+        :root {
+            --purple: #5624d0;
+            --dark: #2d2f31;
+            --light: #f7f7fb;
+            --border: #d1d7dc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background: #fff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 14px 5%;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+        }
+
+        .logo {
+            color: var(--purple);
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .nav-link {
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 18px;
+            border: 1px solid #777;
+            border-radius: 30px;
+            outline-color: var(--purple);
+        }
+
+        .btn {
+            padding: 11px 17px;
+            border: 1px solid var(--dark);
+            background: white;
+            color: var(--dark);
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: white;
+            border-color: var(--purple);
+        }
+
+        .hero {
+            padding: 65px 8%;
+            background: linear-gradient(110deg, #f5f0ff, #f5f8ff);
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero h1 {
+            font-size: clamp(30px, 4vw, 46px);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            margin-bottom: 24px;
+        }
+
+        .section {
+            padding: 42px 6%;
+        }
+
+        .section-heading {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #595c60;
+            margin-bottom: 20px;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 22px 0;
+        }
+
+        .category-btn {
+            padding: 9px 17px;
+            border: 1px solid #777;
+            border-radius: 25px;
+            background: white;
+            color: var(--dark);
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            min-width: 0;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 15px #00000015;
+        }
+
+        .course-image {
+            min-height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 56px;
+            background: #eee8ff;
+        }
+
+        .course-card:nth-child(2) .course-image {
+            background: #dff4e8;
+        }
+
+        .course-card:nth-child(3) .course-image {
+            background: #fff0d9;
+        }
+
+        .course-card:nth-child(4) .course-image {
+            background: #e1edff;
+        }
+
+        .course-content {
+            padding: 15px;
+        }
+
+        .course-content h3 {
+            font-size: 17px;
+            line-height: 1.4;
+            min-height: 48px;
+        }
+
+        .instructor {
+            margin: 8px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .rating {
+            color: #9a5700;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .enroll-btn {
+            width: 100%;
+            padding: 11px;
+            background: var(--purple);
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .enroll-btn:hover,
+        .btn-primary:hover {
+            background: #4017a8;
+        }
+
+        .empty-message {
+            display: none;
+            margin: 25px 0;
+            padding: 18px;
+            background: var(--light);
+            border-radius: 6px;
+        }
+
+        .database-section {
+            background: var(--light);
+        }
+
+        .database-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .db-card {
+            background: white;
+            border: 1px solid #d7d1e6;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .db-card h3 {
+            background: var(--purple);
+            color: white;
+            padding: 12px 15px;
+            font-size: 16px;
+        }
+
+        .db-card ul {
+            list-style: none;
+            padding: 12px 15px;
+        }
+
+        .db-card li {
+            padding: 7px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .db-card li:last-child {
+            border-bottom: none;
+        }
+
+        .pk {
+            color: #a45b00;
+            font-weight: bold;
+        }
+
+        .fk {
+            color: #16803c;
+            font-weight: bold;
+        }
+
+        .relationship {
+            margin-top: 25px;
+            padding: 22px;
+            border-left: 5px solid var(--purple);
+            background: white;
+            overflow-wrap: anywhere;
+        }
+
+        .relationship h3 {
+            margin-bottom: 12px;
+        }
+
+        .relationship p {
+            margin: 8px 0;
+        }
+
+        .schema-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff8e6;
+            border: 1px solid #ead7a2;
+            border-radius: 5px;
+        }
+
+        footer {
+            padding: 28px 6%;
+            text-align: center;
+            color: white;
+            background: #1c1d1f;
+        }
+
+        footer p + p {
+            margin-top: 5px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        @media (max-width: 1000px) {
+            .course-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .database-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                order: 5;
+                flex-basis: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                gap: 12px;
+                padding: 12px 4%;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+
+            .nav-link {
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: 40px 6%;
+            }
+
+            .section {
+                padding: 30px 5%;
+            }
+
+            .course-grid,
+            .database-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. THANH ĐIỀU HƯỚNG -->
+    <header class="navbar">
+        <a class="logo" href="#home">udemy</a>
+
+        <a class="nav-link" href="#courses">Khám phá</a>
+
+        <div class="search-box">
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Tìm kiếm khóa học..."
+                aria-label="Tìm kiếm khóa học">
+        </div>
+
+        <a class="nav-link" href="#database">Thiết kế CSDL</a>
+
+        <button class="btn" id="loginBtn">Đăng nhập</button>
+
+        <button class="btn btn-primary" id="signupBtn">
+            Đăng ký
+        </button>
+    </header>
+
+    <main id="home">
+
+        <!-- 2. BANNER -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Học kỹ năng mới, phát triển tương lai</h1>
+
+                <p>
+                    Khám phá các khóa học trực tuyến về lập trình,
+                    kinh doanh, thiết kế và Digital Marketing.
+                    Học tập linh hoạt theo thời gian của bạn.
+                </p>
+
+                <button class="btn btn-primary" id="exploreBtn">
+                    Khám phá khóa học
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. DANH SÁCH KHÓA HỌC -->
+        <section class="section" id="courses">
+            <h2 class="section-heading">Các khóa học nổi bật</h2>
+
+            <p class="section-description">
+                Lựa chọn khóa học phù hợp với nhu cầu học tập của bạn.
+            </p>
+
+            <div class="categories" id="categories">
+                <button class="category-btn active"
+                        data-category="all" aria-pressed="true">
+                    Tất cả
+                </button>
+
+                <button class="category-btn"
+                        data-category="programming" aria-pressed="false">
+                    Lập trình
+                </button>
+
+                <button class="category-btn"
+                        data-category="business" aria-pressed="false">
+                    Kinh doanh
+                </button>
+
+                <button class="category-btn"
+                        data-category="design" aria-pressed="false">
+                    Thiết kế
+                </button>
+
+                <button class="category-btn"
+                        data-category="marketing" aria-pressed="false">
+                    Marketing
+                </button>
+            </div>
+
+            <div class="course-grid" id="courseList">
+
+                <article class="course-card"
+                         data-category="programming">
+                    <div class="course-image" aria-hidden="true">💻</div>
+
+                    <div class="course-content">
+                        <h3>Lập trình Web với HTML và CSS</h3>
+                        <p class="instructor">Nguyễn Văn A</p>
+                        <p class="rating">★ 4.8/5</p>
+                        <p class="price">299.000đ</p>
+
+                        <button class="enroll-btn"
+                                data-course="Lập trình Web với HTML và CSS">
+                            Đăng ký học
+                        </button>
+                    </div>
+                </article>
+
+                <article class="course-card" data-category="business">
+                    <div class="course-image" aria-hidden="true">📊</div>
+
+                    <div class="course-content">
+                        <h3>Phân tích dữ liệu kinh doanh</h3>
+                        <p class="instructor">Trần Thị B</p>
+                        <p class="rating">★ 4.7/5</p>
+                        <p class="price">399.000đ</p>
+
+                        <button class="enroll-btn"
+                                data-course="Phân tích dữ liệu kinh doanh">
+                            Đăng ký học
+                        </button>
+                    </div>
+                </article>
+
+                <article class="course-card" data-category="design">
+                    <div class="course-image" aria-hidden="true">🎨</div>
+
+                    <div class="course-content">
+                        <h3>Thiết kế đồ họa cơ bản</h3>
+                        <p class="instructor">Lê Văn C</p>
+                        <p class="rating">★ 4.9/5</p>
+                        <p class="price">249.000đ</p>
+
+                        <button class="enroll-btn"
+                                data-course="Thiết kế đồ họa cơ bản">
+                            Đăng ký học
+                        </button>
+                    </div>
+                </article>
+
+                <article class="course-card" data-category="marketing">
+                    <div class="course-image" aria-hidden="true">📱</div>
+
+                    <div class="course-content">
+                        <h3>Digital Marketing thực chiến</h3>
+                        <p class="instructor">Phạm Thị D</p>
+                        <p class="rating">★ 4.8/5</p>
+                        <p class="price">349.000đ</p>
+
+                        <button class="enroll-btn"
+                                data-course="Digital Marketing thực chiến">
+                            Đăng ký học
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+
+            <p class="empty-message" id="emptyMessage" role="status">
+                Không tìm thấy khóa học phù hợp.
+            </p>
+        </section>
+
+        <!-- 4. THIẾT KẾ CƠ SỞ DỮ LIỆU -->
+        <section class="section database-section" id="database">
+            <h2 class="section-heading">Thiết kế cơ sở dữ liệu</h2>
+
+            <p class="section-description">
+                Mô hình dữ liệu mẫu phục vụ quản lý nền tảng học trực tuyến Udemy.
+            </p>
+
+            <div class="database-grid">
+
+                <article class="db-card">
+                    <h3>1. USERS - Người dùng</h3>
+                    <ul>
+                        <li><span class="pk">PK</span> user_id: INT</li>
+                        <li>full_name: VARCHAR(100)</li>
+                        <li>email: VARCHAR(150), UNIQUE</li>
+                        <li>password_hash: VARCHAR(255)</li>
+                        <li>role: VARCHAR(20)</li>
+                        <li>created_at: DATETIME</li>
+                    </ul>
+                </article>
+
+                <article class="db-card">
+                    <h3>2. CATEGORIES - Danh mục</h3>
+                    <ul>
+                        <li><span class="pk">PK</span> category_id: INT</li>
+                        <li>category_name: VARCHAR(100)</li>
+                        <li>description: TEXT</li>
+                    </ul>
+                </article>
+
+                <article class="db-card">
+                    <h3>3. COURSES - Khóa học</h3>
+                    <ul>
+                        <li><span class="pk">PK</span> course_id: INT</li>
+                        <li><span class="fk">FK</span> instructor_id: INT</li>
+                        <li><span class="fk">FK</span> category_id: INT</li>
+                        <li>course_name: VARCHAR(200)</li>
+                        <li>description: TEXT</li>
+                        <li>price: DECIMAL(10,2)</li>
+                        <li>created_at: DATETIME</li>
+                    </ul>
+                </article>
+
+                <article class="db-card">
+                    <h3>4. ENROLLMENTS - Đăng ký học</h3>
+                    <ul>
+                        <li><span class="pk">PK</span> enrollment_id: INT</li>
+                        <li><span class="fk">FK</span> user_id: INT</li>
+                        <li><span class="fk">FK</span> course_id: INT</li>
+                        <li>enrollment_date: DATETIME</li>
+                        <li>progress: DECIMAL(5,2)</li>
+                        <li>status: VARCHAR(20)</li>
+                    </ul>
+                </article>
+
+                <article class="db-card">
+                    <h3>5. PAYMENTS - Thanh toán</h3>
+                    <ul>
+                        <li><span class="pk">PK</span> payment_id: INT</li>
+                        <li><span class="fk">FK</span> enrollment_id: INT</li>
+                        <li>amount: DECIMAL(10,2)</li>
+                        <li>payment_method: VARCHAR(50)</li>
+                        <li>payment_status: VARCHAR(20)</li>
+                        <li>payment_date: DATETIME</li>
+                    </ul>
+                </article>
+
+                <article class="db-card">
+                    <h3>6. REVIEWS - Đánh giá</h3>
+                    <ul>
+                        <li><span class="pk">PK</span> review_id: INT</li>
+                        <li><span class="fk">FK</span> user_id: INT</li>
+                        <li><span class="fk">FK</span> course_id: INT</li>
+                        <li>rating: INT</li>
+                        <li>comment: TEXT</li>
+                        <li>created_at: DATETIME</li>
+                    </ul>
+                </article>
+
+            </div>
+
+            <div class="relationship">
+                <h3>Mối quan hệ giữa các bảng</h3>
+
+                <p>
+                    <strong>USERS (1) - (N) COURSES:</strong>
+                    Một giảng viên có thể tạo nhiều khóa học.
+                </p>
+
+                <p>
+                    <strong>CATEGORIES (1) - (N) COURSES:</strong>
+                    Một danh mục có thể chứa nhiều khóa học.
+                </p>
+
+                <p>
+                    <strong>USERS (1) - (N) ENROLLMENTS:</strong>
+                    Một người dùng có thể đăng ký nhiều khóa học.
+                </p>
+
+                <p>
+                    <strong>COURSES (1) - (N) ENROLLMENTS:</strong>
+                    Một khóa học có thể có nhiều lượt đăng ký.
+                </p>
+
+                <p>
+                    <strong>ENROLLMENTS (1) - (N) PAYMENTS:</strong>
+                    Một lượt đăng ký có thể phát sinh nhiều giao dịch thanh toán.
+                </p>
+
+                <p>
+                    <strong>USERS (1) - (N) REVIEWS:</strong>
+                    Một người dùng có thể viết nhiều đánh giá.
+                </p>
+
+                <p>
+                    <strong>COURSES (1) - (N) REVIEWS:</strong>
+                    Một khóa học có thể nhận nhiều đánh giá.
+                </p>
+
+                <div class="schema-note">
+                    <strong>Lưu ý:</strong>
+                    instructor_id trong COURSES tham chiếu đến
+                    USERS.user_id. Trong hệ thống thực tế, cần bổ sung
+                    ràng buộc khóa ngoại, kiểm tra dữ liệu và cơ chế
+                    xác thực người dùng.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 5. CHÂN TRANG -->
+    <footer>
+        <p><strong>Udemy Demo</strong> - Nền tảng học trực tuyến</p>
+        <p>Bài tập thiết kế cơ sở dữ liệu và giao diện website</p>
+    </footer>
+
+    <!-- 6. JAVASCRIPT -->
+    <script>
+        "use strict";
+
+        const searchInput = document.getElementById("searchInput");
+        const courseCards = Array.from(
+            document.querySelectorAll(".course-card")
+        );
+        const categoryButtons = Array.from(
+            document.querySelectorAll(".category-btn")
+        );
+        const emptyMessage = document.getElementById("emptyMessage");
+
+        let selectedCategory = "all";
+
+        function applyFilters() {
+            const keyword = searchInput.value
+                .trim()
+                .toLocaleLowerCase("vi");
+
+            let visibleCount = 0;
+
+            courseCards.forEach(function (card) {
+                const title = card.querySelector("h3").textContent
+                    .toLocaleLowerCase("vi");
+
+                const instructor = card.querySelector(".instructor")
+                    .textContent.toLocaleLowerCase("vi");
+
+                const category = card.dataset.category;
+
+                const matchesKeyword =
+                    title.includes(keyword) ||
+                    instructor.includes(keyword);
+
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    category === selectedCategory;
+
+                const visible = matchesKeyword && matchesCategory;
+
+                card.hidden = !visible;
+
+                if (visible) {
+                    visibleCount++;
+                }
+            });
+
+            emptyMessage.style.display =
+                visibleCount === 0 ? "block" : "none";
+        }
+
+        searchInput.addEventListener("input", applyFilters);
+
+        categoryButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                selectedCategory = button.dataset.category;
+
+                categoryButtons.forEach(function (item) {
+                    const active =
+                        item.dataset.category === selectedCategory;
+
+                    item.classList.toggle("active", active);
+                    item.setAttribute("aria-pressed", String(active));
+                });
+
+                applyFilters();
+            });
+        });
+
+        document.getElementById("exploreBtn")
+            .addEventListener("click", function () {
+                document.getElementById("courses").scrollIntoView({
+                    behavior: "smooth"
+                });
+            });
+
+        document.getElementById("loginBtn")
+            .addEventListener("click", function () {
+                alert("Đây là giao diện đăng nhập minh họa.");
+            });
+
+        document.getElementById("signupBtn")
+            .addEventListener("click", function () {
+                alert("Đây là giao diện đăng ký tài khoản minh họa.");
+            });
+
+        document.querySelectorAll(".enroll-btn")
+            .forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const courseName = button.dataset.course;
+
+                    alert(
+                        "Bạn đã chọn khóa học: " + courseName +
+                        "\nĐây là bản demo, chưa có chức năng thanh toán thực tế."
+                    );
+                });
+            });
+
+        // Hiển thị toàn bộ khóa học khi trang được mở.
+        applyFilters();
+    </script>
+
+</body>
+</html>
